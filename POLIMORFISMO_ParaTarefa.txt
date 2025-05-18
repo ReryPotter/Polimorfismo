@@ -1,0 +1,19 @@
+Atividades para Tarefa - POLIMORFISMO
+---
+
+1. Na hierarquia de Empregado, crie uma subclasse EmpregadoProducao (extends Empregado), que é remunerado com base na quantidade de peças produzidas.
+Portanto, os atributos específicos de EmpregadoProducao são:
+- o valor unitário de cada peça
+- a quantidade de peças produzidas.
+Repita os testes do Lab (opções 1, 2 e 3 do menu), incluindo agora um representante desta categoria.
+
+2. Para cada tipo de Empregado do exemplo (processamento polimórfico, opção 2 do menu), verifique se a data atual (hoje, considerado o dia do pagamento) está no mês do aniversário do Empregado.
+
+Se estiver, atribua um bônus aos vencimentos do Empregado de acordo com a seguinte regra:
+- EmpregadoAssalariado:          adicione  R$100,00 ao 'salário semanal' (só neste mês!).
+- EmpregadoComissionado:         modifique a taxa de comissão, fazendo-a 50% maior (só neste mês!).
+- EmpregadoComissionadoMaisFixo: modifique o salário, fazendo-o 50% maior (só neste mês!).
+- EmpregadoHorista:              modifique o valor unitário da hora trabalhada, fazendo-o 40% maior (só neste mês!).
+- EmpregadoProducao:             modifique o valor unitário da peça produzida, fazendo-o 30% maior (só neste mês!).
+
+Sugestão: veja https://www.devmedia.com.br/trabalhando-com-as-classes-date-calendar-e-simpledateformat-em-java/27401
