@@ -9,6 +9,9 @@
 // sendo instanciada pelo programa principal do projeto)
 // -----------------------------------------------------
 
+// importação do pacote que contém o código para uso do calendario
+import java.time.LocalDate;
+
 // importação do pacote que contém o código para uso do teclado
 import java.util.Scanner;
 
@@ -20,6 +23,7 @@ public class CoordenadorExecucao {
 
         // criação de um objeto 'Scanner' para a interação com o teclado
         Scanner teclado = new Scanner(System.in);
+
 
         // declaração de constantes para uso no menu
         final int PROCESSAMENTO_INDIVIDUAL = 1;
@@ -35,7 +39,7 @@ public class CoordenadorExecucao {
                     "Filho", 
                     "111.111.111-11",
                     13,
-                    8,
+                    5,
                     1979,
                     800.00);
 
@@ -45,7 +49,7 @@ public class CoordenadorExecucao {
                     "Neto", 
                     "222.222.222-22",
                     33,
-                    3,
+                    5,
                     1991,
                     16.75, 
                     40);
@@ -56,7 +60,7 @@ public class CoordenadorExecucao {
                         "Sobrinho", 
                         "333.333.333-33",
                         5,
-                        13,
+                        5,
                         1998,
                         10000,
                         .06);
@@ -67,20 +71,33 @@ public class CoordenadorExecucao {
                         "Junior",
                         "444.444.444-44",
                         25,
-                        10,
+                        5,
                         2001,
                         5000,
                         .04,
                         300);
 
+        EmpregadoProducao producao
+                = new EmpregadoProducao(
+                    "João", 
+                    "Carvalho", 
+                    "555.555.555-55",
+                    33,
+                    5,
+                    1991,
+                    17.50, 
+                    40);
+                    
+     
         // cria um array Empregado de quatro elementos
-        Empregado empregados[] = new Empregado[4];
+        Empregado empregados[] = new Empregado[5];
 
         // inicializa o array com Empregado          
         empregados[0] = assalariado;
         empregados[1] = horista;
         empregados[2] = comissionado;
         empregados[3] = comissionadoMaisFixo;
+        empregados[4] = producao;
 
         // declaração de variáveis a serem usadas (independentemente da Atividade)
         int escolha;
@@ -119,6 +136,8 @@ public class CoordenadorExecucao {
                     System.out.printf("%s\n%s: R$%,.2f\n\n",
                             comissionadoMaisFixo,
                             "Vencimentos", comissionadoMaisFixo.vencimentos());
+                    System.out.printf("%s\n%s: R$%,.2f\n\n",
+                            producao, "Vencimentos", producao.vencimentos());  
 
                     break;
 
@@ -130,9 +149,39 @@ public class CoordenadorExecucao {
 
                     // processa genericamente cada elemento no empregados
                     for (Empregado empregadoAtual : empregados) {
-                        System.out.println(empregadoAtual); // invoca toString
-                        System.out.printf(
-                                "Vencimentos R$%,.2f\n\n", empregadoAtual.vencimentos());
+
+                        double vencimento = empregadoAtual.vencimentos();
+
+                        System.out.println(empregadoAtual); // invoca toString  
+
+                        LocalDate dataAtual = LocalDate.now();
+                        int mesNumerico = dataAtual.getMonthValue();
+
+                        if (empregadoAtual.getDataNascimento().getMonth() == mesNumerico) {
+                        System.out.println(">>> ANIVERSÁRIO NO MÊS! Bônus aplicado!");
+
+                        // Aplica bônus sem alterar os atributos
+                        if (empregadoAtual instanceof EmpregadoAssalariado) {
+                            vencimento += 100.00;
+                        } else if (empregadoAtual instanceof EmpregadoComissionadoMaisFixo) {
+                            vencimento *= 1.5;
+                        } else if (empregadoAtual instanceof EmpregadoComissionado) {
+                            vencimento += ((EmpregadoComissionado) empregadoAtual).getVendasBrutas() * 
+                                        (((EmpregadoComissionado) empregadoAtual).getTaxaComissao() * 0.5); // 50% extra sobre comissão
+                        } else if (empregadoAtual instanceof EmpregadoHorista) {
+                            double valorExtra = ((EmpregadoHorista) empregadoAtual).getSalarioPorHora() * 0.4;
+                            vencimento += valorExtra * ((EmpregadoHorista) empregadoAtual).getQtdHorasSemanais();
+                        } else if (empregadoAtual instanceof EmpregadoProducao) {
+                            double valorExtra = ((EmpregadoProducao) empregadoAtual).getValorPecaProduzida() * 0.3;
+                            vencimento += valorExtra * ((EmpregadoProducao) empregadoAtual).getQtdPecaProduzida();
+                        }
+                    }
+
+                    //System.out.println(empregadoAtual); // toString
+                    System.out.printf("Vencimentos R$%,.2f\n\n", vencimento);
+    
+
+                        //System.out.printf("Vencimentos R$%,.2f\n\n", empregadoAtual.vencimentos());
                     } // for final
 
                     break;
@@ -200,10 +249,9 @@ public class CoordenadorExecucao {
         autor.exibeDadosAutor(
                 "ESTRUTURAS DE DADOS - 2025/1S",
                 "POLIMORFISMO em JAVA",
-                "CARLOS MAGNUS CARLSON FILHO",
-                "121 092 AAS P NNN");
+                "Bruno Gabriel Struzziatto Vilela",
+                "121 092 241 3 023");
 
     }
 
 }
-
